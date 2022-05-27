@@ -1,0 +1,39 @@
+﻿{% extends "layout.html" %}
+
+{% block content %}
+
+    <form method="POST" action="/register">
+        <div class="form-group">
+            <label for="exampleInputEmail1">First Name</label>
+            {{form.first_name(class = "form-control")}}
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Last Name</label>
+            {{form.last_name(class = "form-control")}}
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Email Address</label>
+            {{form.email(class = "form-control")}}
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Phone Number</label>
+            {{form.phone_number(class = "form-control")}}
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Country</label>
+            {{form.country(class = "form-control")}}
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Username</label>
+            {{form.username(class = "form-control")}}
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            {{form.password(class = "form-control")}}
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+
+{% endblock %}
+

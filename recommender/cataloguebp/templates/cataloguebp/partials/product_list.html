@@ -1,0 +1,35 @@
+﻿<div class="container">
+    <div class="row">
+        <div class="pull-right">
+            {% include 'partials/pagination.html'%}
+        </div>
+    </div>
+    <hr class="product-list__upper-horizontal-line" />
+    <div class="row">
+        {%if page_object.items%}
+
+        {% for product in page_object.items %}
+        <div class="col-md-4">
+            {% include 'partials/product_list_item.html'%}
+        </div>
+        {% endfor %}
+
+        {%else%}
+        <div class="product-list__empty-notifier">
+            <p>
+                There are no products that match your filters.
+            </p>
+            <p>
+                Try a different combination or contact customer service for further assistance.
+            </p>
+        </div>
+        {% endif%}
+
+    </div>
+    <hr class="product-list__lower-horizontal-line" />
+    <div class="row">
+        <div class="pull-right">
+            {% include 'partials/pagination.html'%}
+        </div>
+    </div>
+</div>

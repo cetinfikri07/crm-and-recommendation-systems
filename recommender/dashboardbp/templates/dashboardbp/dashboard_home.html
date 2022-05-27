@@ -1,0 +1,249 @@
+﻿{% extends "dashboard_layout.html" %}
+
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Dashboard</h4>
+            </div>
+        </div>
+        <div class="row">
+            {% for kpi,value in kpis.items() %}
+            <div class="col-md-3 mb-3">
+                <div class="card {{value[1]}} text-white h-100">
+                    <div class="card-body py-2">{{kpi}}</div>
+                    <div class="card-body pt-2">{{value[0]}}</div>
+                    <div class="card-footer d-flex">
+                        View Details
+                        <span class="ms-auto">
+                            <i class="bi bi-chevron-right"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
+                        Top Customers
+                    </div>
+                    <div class="card-body">
+                        <canvas class="chart" id="champions" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
+                        Best-Sellers
+                    </div>
+                    <div class="card-body">
+                        <canvas class="chart" id="best-sellers" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
+                        Sales by Years
+                    </div>
+                    <div class="card-body">
+                        <canvas class="chart" id="sales-by-years" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
+                        Countries
+                    </div>
+                    <div class="card-body">
+                        <canvas class="chart" id="countries" width="200" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="/static/content/dashboard/js/bootstrap.bundle.min.js"></script>
+        <script src="/static/content/dashboard/js/jquery-3.5.1.js"></script>
+        <script src="/static/content/dashboard/js/jquery.dataTables.min.js"></script>
+        <script src="/static/content/dashboard/js/dataTables.bootstrap5.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.2/dist/chart.min.js"></script>
+        <script>
+            const champions = document.getElementById("champions");
+            const bestSellers = document.getElementById("best-sellers");
+            const productNames = {{ product_names | tojson }};
+
+
+                var ctx1 = champions.getContext("2d");
+                var championsChart = new Chart(ctx1, {
+                  type: "bar",
+                  data: {
+                        labels: {{customer_ids}},
+                    datasets: [
+                      {
+                        label: "# of Orders",
+                        data: {{num_orders}},
+                        backgroundColor: [
+                          "rgba(255, 99, 132, 0.5)",
+                          "rgba(54, 162, 235, 0.5)",
+                          "rgba(255, 206, 86, 0.5)",
+                          "rgba(75, 192, 192, 0.5)",
+                          "rgba(153, 102, 255, 0.5)",
+                          "rgba(255, 159, 64, 0.5)",
+                        ],
+                        borderColor: [
+                          "rgba(255, 99, 132, 1)",
+                          "rgba(54, 162, 235, 1)",
+                          "rgba(255, 206, 86, 1)",
+                          "rgba(75, 192, 192, 1)",
+                          "rgba(153, 102, 255, 1)",
+                          "rgba(255, 159, 64, 1)",
+                        ],
+                        borderWidth: 1,
+                      },
+                    ],
+                  },
+                  options: {
+                    scales: {
+                      y: {
+                        beginAtZero: true,
+                      },
+                    },
+                  },
+                });
+
+
+                var ctx2 = bestSellers.getContext("2d");
+                var bestSellersChart = new Chart(ctx2, {
+                  type: "bar",
+                  data: {
+                    labels: productNames ,
+                    datasets: [
+                      {
+                        label: "# of Purchases",
+                        data: {{num_sales}},
+                        backgroundColor: [
+                          "rgba(255, 99, 132, 0.5)",
+                          "rgba(54, 162, 235, 0.5)",
+                          "rgba(255, 206, 86, 0.5)",
+                          "rgba(75, 192, 192, 0.5)",
+                          "rgba(153, 102, 255, 0.5)",
+                          "rgba(255, 159, 64, 0.5)",
+                        ],
+                        borderColor: [
+                          "rgba(255, 99, 132, 1)",
+                          "rgba(54, 162, 235, 1)",
+                          "rgba(255, 206, 86, 1)",
+                          "rgba(75, 192, 192, 1)",
+                          "rgba(153, 102, 255, 1)",
+                          "rgba(255, 159, 64, 1)",
+                        ],
+                        borderWidth: 1,
+                      },
+                    ],
+                  },
+                  options: {
+                    scales: {
+                      y: {
+                        beginAtZero: true,
+                      },
+                    },
+                  },
+                });
+
+        </script>
+
+
+        <script>
+
+            const salesByYears = document.getElementById("sales-by-years");
+            const lineplotDict = {{ lineplot_dict | tojson }};
+            const labels = Object.keys(lineplotDict);
+            const data = Object.values(lineplotDict);
+
+
+
+            var ctx3 = salesByYears.getContext("2d");;
+            var salesByYearsChart = new Chart(ctx3, {
+                type: "line",
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Sales by Years',
+                        data: data,
+                        fill: false,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.2
+                    }]
+                },
+                options: {}
+            });
+
+
+
+
+        </script>
+
+        <script>
+
+            const countries = document.getElementById("countries");
+            const pieDict = {{ pie_dict | tojson }};
+            const labels_pie = Object.keys(pieDict);
+            const data_pie = Object.values(pieDict);
+
+
+            var ctx4 = countries.getContext("2d");;
+            var countriesChart = new Chart(ctx4, {
+                type: 'pie',
+                data: {
+                    labels: labels_pie,
+                    datasets: [{
+                        label: "Number",
+                        data: data_pie,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                            'rgba(54, 162, 235, 0.5)',
+                            'rgba(255, 206, 86, 0.5)',
+                            'rgba(75, 192, 192, 0.5)',
+                            'rgba(153, 102, 255, 0.5)',
+                            'rgba(255, 159, 64, 0.5)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+
+                }
+            });
+
+
+
+
+        </script>
+
+
+        {% endblock %}
+
+
+
+
+
+
+

@@ -1,0 +1,83 @@
+﻿{% extends "layout.html" %}
+{% block content %}
+    <div class="container cart_detail">
+        <div class="row no-gutters display-flex cart_detail__row">
+            <div class="col-md-9 cart_detail__cart-panel">
+                <div class="cart_detail__cart-panel-header">
+                    <div class="cart_detail__cart-panel-title ">
+                        <p>Your Cart</p>
+                    </div>
+                    <div>
+                        <a href="/" class="cart_detail__continue-shopping-button">Continue Shopping</a>
+                    </div>
+                </div>
+                <div>
+                    <table class="table table-bordered table-striped">
+                        <thead class="cart_detail__table-head">
+                            <tr>
+                                <th class="cart_detail__table-head-item">Item</th>
+                                <th></th>
+                                <th class="text-center cart_detail__table-head-item">Price</th>
+                                <th class="text-center cart_detail__table-head-item">Quantity</th>
+                                <th class="text-center cart_detail__table-head-item">Total</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in cart_items %}
+                            <tr class="cart_detail__table-body-item-wrapper">
+                                <td class="text-center">
+                                    <img src="/static/images/productimages/main/{{item.image_url()}}" class="cart_detail__image" />
+                                </td>
+                                <td class="text-left cart_detail__table-body-item-name">{{item.name()}}</td>
+                                <td class="text-center cart_detail__table-body-item-price">${{item.price()}}</td>
+                                <td class="text-center cart_detail__table-body-item-quantity">{{item.quantity}}</td>
+                                <td class="text-center cart_detail__table-body-item-total">${{ "%.2f"|format(item.cart_item_total()) }}</td>
+                                <td class="text-center">
+                                    <form method="post">
+                                        <input type="hidden" name="product_id" value="{{item.product.id}}" />
+                                        <button type="submit" class="cart_detail__table-remove-button">X</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-3 cart_detail__summary-panel">
+                <div class="cart_detail__summary-panel-title-wrapper">
+                    <p class="cart_detail__summary-panel-title">Cart Summary</p>
+                </div>
+                <div class="cart_detail__summary-panel-total">
+                    <span class="cart_detail__summary-panel-total-title">Items({{cart_item_count}})</span>
+                    <span>${{ "%.2f"|format(cart_total) }}</span>
+                </div>
+                <div class="cart_detail__summary-panel-ads">
+                    <p class="cart_detail__summary-panel-ads-lable">Free 3-Day Shipping!</p>
+                </div>
+                <div style="margin-top: 25px;">
+
+                    <form method="post" action="/order">
+                        <input type="hidden" name="test" value="test" />
+                        <button class="cart_detail__summary-panel-checkout-button" type="submit" name="submit">PROCEED TO CHECKOUT</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <h4>Frequently Bought Together:</h4>
+        {%if recommendation_list_obj |length > 0 %}
+        <ul>
+            {% for product in recommendation_list_obj %}
+            <li><a href="/catalogue/products/{{product.slug}}/">{{product.name}}</a></li>
+            {% endfor %}
+        </ul>
+
+        {%else%}
+
+        <p>Not Found</p>
+
+        {% endif%}
+    </div>
+{% endblock %}

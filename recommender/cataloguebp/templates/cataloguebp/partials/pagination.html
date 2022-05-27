@@ -1,0 +1,31 @@
+﻿{% if page_object.pages %}
+<div class="container">
+    <nav>
+        <div class="custom-pagination">
+            <ul class="pagination">
+                {% if page_object.has_prev %}
+                <li><a href="?page={{ page_object.prev_num }}">&laquo;</a></li>
+                {% else %}
+                <li class="disabled"><span>&laquo;</span></li>
+                {% endif %}
+                {% for i in page_object.iter_pages() %}
+                {% if i %}
+                {% if page_object.page == i %}
+                <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                {% else %}
+                <li><a href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+                {% else %}
+                <li class="disabled"><a href="#">&hellip;</a></li>
+                {% endif %}
+                {% endfor %}
+                {% if page_object.has_next %}
+                <li><a href="?page={{ page_object.next_num }}">&raquo;</a></li>
+                {% else %}
+                <li class="disabled"><span>&raquo;</span></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+</div>
+{% endif %}

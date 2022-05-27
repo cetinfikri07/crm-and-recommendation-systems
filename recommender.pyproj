@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>66ff4854-83d7-4a3c-a0f4-8aa78fe836d7</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <ProjectTypeGuids>{789894c7-04a9-4a11-a6b5-3f4435165112};{1b580a1a-fdb3-4b32-83e1-6407eb2722e6};{349c5851-65df-11da-9384-00065b846f21};{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <StartupFile>runserver.py</StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <LaunchProvider>Web launcher</LaunchProvider>
+    <WebBrowserUrl>http://localhost</WebBrowserUrl>
+    <OutputPath>.</OutputPath>
+    <SuppressCollectPythonCloudServiceFiles>true</SuppressCollectPythonCloudServiceFiles>
+    <Name>recommender</Name>
+    <RootNamespace>recommender</RootNamespace>
+    <InterpreterId>MSBuild|env|$(MSBuildProjectFullPath)</InterpreterId>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="migrations\env.py" />
+    <Compile Include="migrations\versions\134891c1f219_.py" />
+    <Compile Include="migrations\versions\2ee7360bd6ba_.py" />
+    <Compile Include="migrations\versions\47fde12affb7_.py" />
+    <Compile Include="migrations\versions\804b52e93a47_.py" />
+    <Compile Include="migrations\versions\d8ffff06307e_.py" />
+    <Compile Include="migrations\versions\fd11bb9aab67_.py" />
+    <Compile Include="recommender\dashboardbp\dashboard_service.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="recommender\dashboardbp\models.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="recommender\dashboardbp\views.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="recommender\dashboardbp\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="recommender\arlbp\models.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="recommender\arlbp\arl_service.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="recommender\arlbp\views.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="recommender\arlbp\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="recommender\cartbp\cart_service.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="recommender\cartbp\models.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="recommender\cartbp\views.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="recommender\cartbp\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="recommender\cataloguebp\catalogue_service.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="recommender\cataloguebp\models.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="recommender\cataloguebp\views.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="recommender\cataloguebp\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="recommender\checkoutbp\checkout_service.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="recommender\checkoutbp\forms.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="recommender\checkoutbp\views.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="recommender\checkoutbp\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="recommender\orderbp\models.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="recommender\orderbp\order_service.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="recommender\orderbp\views.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="recommender\orderbp\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="recommender\sharedbp\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="recommender\userbp\forms.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="recommender\userbp\models.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="recommender\userbp\user_service.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="recommender\userbp\views.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="recommender\userbp\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="runserver.py" />
+    <Compile Include="recommender\__init__.py" />
+    <Compile Include="recommender\views.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="migrations\" />
+    <Folder Include="migrations\versions\" />
+    <Folder Include="migrations\versions\__pycache__\" />
+    <Folder Include="migrations\__pycache__\" />
+    <Folder Include="recommender\" />
+    <Folder Include="recommender\dashboardbp\" />
+    <Folder Include="recommender\arlbp\" />
+    <Folder Include="recommender\cartbp\" />
+    <Folder Include="recommender\cartbp\static\" />
+    <Folder Include="recommender\cartbp\static\content\" />
+    <Folder Include="recommender\cartbp\static\content\scss\" />
+    <Folder Include="recommender\cartbp\static\content\scss\partials\" />
+    <Folder Include="recommender\cartbp\templates\" />
+    <Folder Include="recommender\cartbp\templates\cartbp\" />
+    <Folder Include="recommender\cartbp\templates\cartbp\partials\" />
+    <Folder Include="recommender\cataloguebp\" />
+    <Folder Include="recommender\cataloguebp\static\content\" />
+    <Folder Include="recommender\cataloguebp\static\content\scss\" />
+    <Folder Include="recommender\cataloguebp\static\content\scss\partials\" />
+    <Folder Include="recommender\cataloguebp\templates\" />
+    <Folder Include="recommender\cataloguebp\static\" />
+    <Folder Include="recommender\cataloguebp\templates\cataloguebp\" />
+    <Folder Include="recommender\cataloguebp\templates\cataloguebp\partials\" />
+    <Folder Include="recommender\checkoutbp\" />
+    <Folder Include="recommender\checkoutbp\static\content\" />
+    <Folder Include="recommender\checkoutbp\static\content\scss\" />
+    <Folder Include="recommender\checkoutbp\static\content\scss\partials\" />
+    <Folder Include="recommender\checkoutbp\templates\" />
+    <Folder Include="recommender\checkoutbp\static\" />
+    <Folder Include="recommender\checkoutbp\templates\checkoutbp\" />
+    <Folder Include="recommender\dashboardbp\templates\" />
+    <Folder Include="recommender\dashboardbp\templates\dashboardbp\" />
+    <Folder Include="recommender\orderbp\" />
+    <Folder Include="recommender\sharedbp\" />
+    <Folder Include="recommender\static\" />
+    <Folder Include="recommender\static\content\" />
+    <Folder Include="recommender\static\content\dashboard\" />
+    <Folder Include="recommender\static\content\dashboard\css\" />
+    <Folder Include="recommender\static\content\dashboard\js\" />
+    <Folder Include="recommender\static\content\scss\" />
+    <Folder Include="recommender\static\content\scss\partials\" />
+    <Folder Include="recommender\static\fonts\" />
+    <Folder Include="recommender\static\images\" />
+    <Folder Include="recommender\static\images\productimages\" />
+    <Folder Include="recommender\static\images\productimages\main\" />
+    <Folder Include="recommender\static\scripts\" />
+    <Folder Include="recommender\templates\" />
+    <Folder Include="recommender\userbp\" />
+    <Folder Include="recommender\userbp\static\" />
+    <Folder Include="recommender\userbp\templates\" />
+    <Folder Include="recommender\userbp\templates\userbp\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="migrations\alembic.ini" />
+    <Content Include="migrations\README" />
+    <Content Include="migrations\script.py.mako" />
+    <Content Include="migrations\versions\__pycache__\134891c1f219_.cpython-37.pyc" />
+    <Content Include="migrations\versions\__pycache__\2ee7360bd6ba_.cpython-37.pyc" />
+    <Content Include="migrations\versions\__pycache__\47fde12affb7_.cpython-37.pyc" />
+    <Content Include="migrations\versions\__pycache__\d8ffff06307e_.cpython-37.pyc" />
+    <Content Include="migrations\versions\__pycache__\fd11bb9aab67_.cpython-37.pyc" />
+    <Content Include="migrations\__pycache__\env.cpython-37.pyc" />
+    <Content Include="recommender\cartbp\static\content\scss\cartbp.scss" />
+    <Content Include="recommender\cartbp\static\content\scss\partials\cart_detail.scss" />
+    <Content Include="recommender\cartbp\static\content\scss\partials\cart_summary_widget.scss" />
+    <Content Include="recommender\cartbp\templates\cartbp\cart_detail.html" />
+    <Content Include="recommender\cartbp\templates\cartbp\partials\cart_summary_widget.html" />
+    <Content Include="recommender\cataloguebp\static\content\scss\cataloguebp.scss" />
+    <Content Include="recommender\cataloguebp\static\content\scss\partials\brand.scss" />
+    <Content Include="recommender\cataloguebp\static\content\scss\partials\catalogue.scss" />
+    <Content Include="recommender\cataloguebp\static\content\scss\partials\category.scss" />
+    <Content Include="recommender\cataloguebp\static\content\scss\partials\pagination.scss" />
+    <Content Include="recommender\cataloguebp\static\content\scss\partials\product_list.scss" />
+    <Content Include="recommender\cataloguebp\static\content\scss\partials\product_list_item.scss" />
+    <Content Include="recommender\cataloguebp\templates\cataloguebp\catalogue.html" />
+    <Content Include="recommender\cataloguebp\templates\cataloguebp\partials\brand.html" />
+    <Content Include="recommender\cataloguebp\templates\cataloguebp\partials\category.html" />
+    <Content Include="recommender\cataloguebp\templates\cataloguebp\partials\pagination.html" />
+    <Content Include="recommender\cataloguebp\templates\cataloguebp\partials\product_list.html" />
+    <Content Include="recommender\cataloguebp\templates\cataloguebp\partials\product_list_item.html" />
+    <Content Include="recommender\cataloguebp\templates\cataloguebp\product_detail.html" />
+    <Content Include="recommender\checkoutbp\static\content\scss\checkoutbp.scss" />
+    <Content Include="recommender\checkoutbp\static\content\scss\partials\checkout.scss" />
+    <Content Include="recommender\checkoutbp\static\content\scss\partials\receipt.scss" />
+    <Content Include="recommender\checkoutbp\templates\checkoutbp\checkout.html" />
+    <Content Include="recommender\checkoutbp\templates\checkoutbp\receipt.html" />
+    <Content Include="recommender\dashboardbp\templates\dashboardbp\dashboard_clv.html" />
+    <Content Include="recommender\dashboardbp\templates\dashboardbp\dashboard_home.html" />
+    <Content Include="recommender\dashboardbp\templates\dashboardbp\dashboard_rfm.html" />
+    <Content Include="recommender\static\content\dashboard\css\bootstrap.min.css" />
+    <Content Include="recommender\static\content\dashboard\css\bootstrap.min.css.map" />
+    <Content Include="recommender\static\content\dashboard\css\dataTables.bootstrap5.min.css" />
+    <Content Include="recommender\static\content\dashboard\css\style.css" />
+    <Content Include="recommender\static\content\dashboard\js\bootstrap.bundle.min.js" />
+    <Content Include="recommender\static\content\dashboard\js\bootstrap.bundle.min.js.map" />
+    <Content Include="recommender\static\content\dashboard\js\dataTables.bootstrap5.min.js" />
+    <Content Include="recommender\static\content\dashboard\js\jquery-3.5.1.js" />
+    <Content Include="recommender\static\content\dashboard\js\jquery.dataTables.min.js" />
+    <Content Include="recommender\static\content\dashboard\js\script.js" />
+    <Content Include="recommender\static\content\recommender.css" />
+    <Content Include="recommender\static\content\scss\partials\layout.scss" />
+    <Content Include="recommender\static\content\scss\recommender.scss" />
+    <Content Include="recommender\static\scripts\bootstrap.bundle.min.js" />
+    <Content Include="recommender\static\scripts\bootstrap.bundle.min.js.map" />
+    <Content Include="recommender\static\scripts\dataTables.bootstrap5.min.js" />
+    <Content Include="recommender\static\scripts\jquery-3.5.1.js" />
+    <Content Include="recommender\static\scripts\jquery.dataTables.min.js" />
+    <Content Include="recommender\static\scripts\script.js" />
+    <Content Include="recommender\templates\dashboard_layout.html" />
+    <Content Include="recommender\userbp\templates\userbp\login.html" />
+    <Content Include="recommender\userbp\templates\userbp\register.html" />
+    <Content Include="requirements.txt" />
+    <Content Include="recommender\static\content\bootstrap.css" />
+    <Content Include="recommender\static\content\bootstrap.min.css" />
+    <Content Include="recommender\static\content\site.css" />
+    <Content Include="recommender\static\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="recommender\static\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="recommender\static\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="recommender\static\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="recommender\static\scripts\bootstrap.js" />
+    <Content Include="recommender\static\scripts\bootstrap.min.js" />
+    <Content Include="recommender\static\scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="recommender\static\scripts\jquery-1.10.2.js" />
+    <Content Include="recommender\static\scripts\jquery-1.10.2.min.js" />
+    <Content Include="recommender\static\scripts\jquery-1.10.2.min.map" />
+    <Content Include="recommender\static\scripts\jquery.validate-vsdoc.js" />
+    <Content Include="recommender\static\scripts\jquery.validate.js" />
+    <Content Include="recommender\static\scripts\jquery.validate.min.js" />
+    <Content Include="recommender\static\scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="recommender\static\scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="recommender\static\scripts\modernizr-2.6.2.js" />
+    <Content Include="recommender\static\scripts\respond.js" />
+    <Content Include="recommender\static\scripts\respond.min.js" />
+    <Content Include="recommender\static\scripts\_references.js" />
+    <Content Include="recommender\templates\layout.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Interpreter Include="env\">
+      <Id>env</Id>
+      <Version>3.7</Version>
+      <Description>env (Python 3.7 (32-bit))</Description>
+      <InterpreterPath>Scripts\python.exe</InterpreterPath>
+      <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
+      <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
+      <Architecture>X86</Architecture>
+    </Interpreter>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Web.targets" />
+  <!-- Specify pre- and post-build commands in the BeforeBuild and 
+       AfterBuild targets below. -->
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <AutoAssignPort>True</AutoAssignPort>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

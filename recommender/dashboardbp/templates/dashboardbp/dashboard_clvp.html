@@ -1,0 +1,393 @@
+﻿{% extends "dashboard_layout.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Customer Lifetime Value Prediction</h4>
+        </div>
+    </div>
+    <div class="row">
+        {% for kpi,value in kpis.items() %}
+        <div class="col-md-3 mb-3">
+            <div class="card {{value[1]}} text-white h-100">
+                <div class="card-body py-2">{{kpi}} in {{value[2]}} Month</div>
+                <div class="card-body pt-2">{{value[0]}}</div>
+                <div class="card-footer d-flex">
+                    View Details
+                    <span class="ms-auto">
+                        <i class="bi bi-chevron-right"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="row">
+        <div class="col-md-12 mb-3">
+            <form method="POST" action="/dashboard/customer-lifetime-prediction">
+                <div class="row g-3 align-items-center">
+                    <div class="col-auto">
+                        <label for="segment" class="col-form-label">Months</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="number" min="1" class="form-control" name="months" placeholder="1" />
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-info">Analyze</button>
+                    </div>
+                </div>
+
+            </form>
+            <div class="col-md-12 mb-3">
+                <div class="card">
+                    <div class="card-header">
+                        <span><i class="bi bi-table me-2"></i></span> Data Table
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="example"
+                                   class="table table-striped data-table"
+                                   style="width: 100%">
+                                <thead>
+                                    <tr>
+                                        <th>Customer ID</th>
+                                        <th>Customer Name</th>
+                                        <th>Email Address</th>
+                                        <th>Phone Number</th>
+                                        <th>Country</th>
+                                        <th>Expected Number of Transactions</th>
+                                        <th>Expected Average Profit Per Transaction</th>
+                                        <th>Expected CLTV</th>
+                                        <th>Expected CLTV Net Profit</th>
+                                        <th>Expected CLTV Scaled</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {% for key,value in cltvp_table.iterrows() %}
+                                    <tr>
+                                        <td>{{value["customer_id"]}}</td>
+                                        <td>{{value["first_name"]}} {{value["last_name"]}}</td>
+                                        <td>{{value["email_address"]}}</td>
+                                        <td>{{value["phone_number"]}}</td>
+                                        <td>{{value["country"]}}</td>
+                                        <td>{{"%.2f"|format(value["expected_number_of_transactions"])}}</td>
+                                        <td>{{"%.2f"|format(value["expected_average_profit_per_transaction"])}}</td>
+                                        <td>{{"%.2f"|format(value["expected_cltv"])}}</td>
+                                        <td>{{"%.2f"|format(value["expected_cltv_net_profit"])}}</td>
+                                        <td>{{"%.2f"|format(value["expected_cltv_scaled"])}}</td>
+
+
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <form method="POST" action="/dashboard/customer-lifetime-prediction">
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                            <label for="segment" class="col-form-label">Select Value</label>
+                        </div>
+                        <div class="col-auto">
+                            <select class="form-select" name="bar-chart-value">
+                                <option selected value="expected_number_of_transactions">Expected Number of Transaction</option>
+                                <option value="expected_average_profit_per_transaction">Expected Average Profit Per Transaction</option>
+                                <option value="expected_cltv">Expected CLTV</option>
+                                <option value="expected_cltv_scaled">Expected CLTV Scaled</option>
+                            </select>
+                        </div>
+                        <input type="hidden" value="{{months}}" name="months" />
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-info">Query</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="card h-100">
+                    <div class="card-header">
+                        <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
+                        Top Customers
+                    </div>
+                    <div class="card-body">
+                        <canvas class="chart" id="top-customers" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <form method="POST" action="/dashboard/customer-lifetime-prediction">
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                            <label for="segment" class="col-form-label">Select Value</label>
+                        </div>
+                        <div class="col-auto">
+                            <select class="form-select" name="dist-plot-value">
+                                <option selected value="expected_number_of_transactions">Expected Number of Transactions</option>
+                                <option value="expected_average_profit_per_transaction">Expected Average Profit</option>
+                                <option value="expected_cltv">Expected CLTV</option>
+                            </select>
+                        </div>
+                        <input type="hidden" value="{{months}}" name="months" />
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-info">Query</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="card h-100">
+                    <div class="card-header">
+                        <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
+                        Distribution of Values
+                    </div>
+                    <div class="card-body">
+                        <canvas class="chart" id="dist-plot" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
+                        Expected Number of Transactions Scatter Plot
+                    </div>
+                    <div class="card-body">
+                        <canvas class="chart" id="scatter-transaction" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
+                        Expected Average Profit per Transaction
+                    </div>
+                    <div class="card-body">
+                        <canvas class="chart" id="scatter-profit" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script src="/static/content/dashboard/js/bootstrap.bundle.min.js"></script>
+<script src="/static/content/dashboard/js/jquery-3.5.1.js"></script>
+<script src="/static/content/dashboard/js/jquery.dataTables.min.js"></script>
+<script src="/static/content/dashboard/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.2/dist/chart.min.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+        $(".data-table").each(function (_, table) {
+            $(table).DataTable();
+        });
+    });
+</script>
+
+<script>
+
+    const topCustomers = document.getElementById("top-customers");
+    const topCustomerIds = {{ top_customers_ids | tojson }};
+    const topCustomersValue = {{ top_customers_values | tojson }};
+
+                var ctx1 = topCustomers.getContext("2d");
+                var topCustomersChart = new Chart(ctx1, {
+                  type: "bar",
+                    data: {
+                        labels: topCustomerIds,
+                        datasets: [
+                            {
+                                label: "{{ bar_chart_value }}",
+                        data: topCustomersValue,
+                        backgroundColor: [
+                          "rgba(255, 99, 132, 0.5)",
+                          "rgba(54, 162, 235, 0.5)",
+                          "rgba(255, 206, 86, 0.5)",
+                          "rgba(75, 192, 192, 0.5)",
+                          "rgba(153, 102, 255, 0.5)",
+                          "rgba(255, 159, 64, 0.5)",
+                        ],
+                        borderColor: [
+                          "rgba(255, 99, 132, 1)",
+                          "rgba(54, 162, 235, 1)",
+                          "rgba(255, 206, 86, 1)",
+                          "rgba(75, 192, 192, 1)",
+                          "rgba(153, 102, 255, 1)",
+                          "rgba(255, 159, 64, 1)",
+                        ],
+                        borderWidth: 1,
+                      },
+                    ],
+                  },
+                  options: {
+                    scales: {
+                      y: {
+                        beginAtZero: true,
+                      },
+                    },
+                  },
+                });
+
+</script>
+
+<script>
+
+    const distPlot = document.getElementById("dist-plot");
+    const distPlotData = {{ dist_plot_dict | tojson }};
+
+
+                var ctx2 = distPlot.getContext("2d");
+                var topCustomersChart = new Chart(ctx2, {
+                  type: "bar",
+                    data: {
+                        datasets: [
+                            {
+                                label: "Number of Customers",
+                                data: distPlotData["{{ dist_plot_value }}"]["values"],
+                        backgroundColor: [
+                          "rgba(255, 99, 132, 0.5)",
+                          "rgba(54, 162, 235, 0.5)",
+                          "rgba(255, 206, 86, 0.5)",
+                          "rgba(75, 192, 192, 0.5)",
+                          "rgba(153, 102, 255, 0.5)",
+                          "rgba(255, 159, 64, 0.5)",
+                        ],
+                        borderColor: [
+                          "rgba(255, 99, 132, 1)",
+                          "rgba(54, 162, 235, 1)",
+                          "rgba(255, 206, 86, 1)",
+                          "rgba(75, 192, 192, 1)",
+                          "rgba(153, 102, 255, 1)",
+                          "rgba(255, 159, 64, 1)",
+                        ],
+                        borderWidth: 1,
+                                barPercentage: 1,
+                                categoryPercentage: 1
+                      },
+                    ],
+                  },
+                  options: {
+                      scales: {
+                          x: {
+                              type: "linear",
+                              offset: false,
+                              grid: {
+                                  offset: false
+                              },
+                              ticks: {
+                                  stepSize: distPlotData["{{ dist_plot_value }}"]["step_size"]
+                              },
+                              title: {
+                                  display: true,
+                                  text: "{{ dist_plot_value }} {{ months }} months"
+                              }
+                          },
+
+                          y: {
+                              title: {
+                                  display: true,
+                                  text:"Count"
+                              }
+                          },
+                    },
+                  },
+                });
+
+</script>
+
+<script>
+    const scatterTransaction = document.getElementById("scatter-transaction");
+    const scatterTransactionData = {{ scatter_plot_dict_transaction | tojson }};
+
+    var ctx3 = scatterTransaction.getContext("2d");
+    var scatterTransactionChart = new Chart(ctx3, {
+        type: "scatter",
+        data: {
+            datasets: [{
+                label: "Expected Number of Transactions & Expected CLTV",
+                backgroundColor: 'rgb(14, 70, 237)',
+                data: scatterTransactionData["expected_number_of_transactions"]["values"]
+            }]
+        },
+        options: {
+            legend: {
+                display: false
+            },
+            scales: {
+                x: {
+                    type: "linear",
+                    position: "bottom",
+                    title: {
+                        display: true,
+                        text: "Expected Number of Transaction"
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: "Expected CLTV"
+                    }
+                }
+            }
+        }
+    })
+
+
+</script>
+
+<script>
+    const scatterProfit = document.getElementById("scatter-profit");
+    const scatterProfitData = {{ scatter_plot_dict_profit | tojson }};
+
+    var ctx4 = scatterProfit.getContext("2d");
+    var scatterTransactionChart = new Chart(ctx4, {
+        type: "scatter",
+        data: {
+            datasets: [{
+                label: "Expected Average Profit per Transaction & Expected CLTV",
+                backgroundColor: 'rgb(14, 198, 35)',
+                data: scatterProfitData["expected_average_profit_per_transaction"]["values"]
+            }]
+        },
+        options: {
+            legend: {
+                display: false
+            },
+            scales: {
+                x: {
+                    type: "linear",
+                    position: "bottom",
+                    title: {
+                        display: true,
+                        text: "Expected Average Profit per Transaction"
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: "Expected CLTV"
+                    }
+                }
+            }
+        }
+    });
+
+
+</script>
+
+
+{% endblock %}
+
+
+
+
+
+
+

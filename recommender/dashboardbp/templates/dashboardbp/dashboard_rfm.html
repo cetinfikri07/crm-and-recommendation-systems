@@ -1,0 +1,431 @@
+﻿{% extends "dashboard_layout.html" %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h4>RFM Analysis and Segments</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 mb-3">
+                <div class="card bg-primary text-white h-100">
+                    <div class="card-body py-2">Average Recency</div>
+                    <div class="card-body pt-2">{{avg_rfm[0]}}</div>
+                    <div class="card-footer d-flex">
+                        View Details
+                        <span class="ms-auto">
+                            <i class="bi bi-chevron-right"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card bg-warning text-white h-100">
+                    <div class="card-body py-2">Average Frequency</div>
+                    <div class="card-body pt-2">{{avg_rfm[1]}}</div>
+                    <div class="card-footer d-flex">
+                        View Details
+                        <span class="ms-auto">
+                            <i class="bi bi-chevron-right"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card bg-success text-white h-100">
+                    <div class="card-body py-2">Average Monetary</div>
+                    <div class="card-body pt-2">{{avg_rfm[2]}}</div>
+                    <div class="card-footer d-flex">
+                        View Details
+                        <span class="ms-auto">
+                            <i class="bi bi-chevron-right"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card bg-danger text-white h-100">
+                    <div class="card-body py-2">Average RFM Score</div>
+                    <div class="card-body pt-2">{{avg_rfm_score[0]}}{{avg_rfm_score[1]}}{{avg_rfm_score[2]}}</div>
+                    <div class="card-footer d-flex">
+                        View Details
+                        <span class="ms-auto">
+                            <i class="bi bi-chevron-right"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <form method="POST" action="/dashboard/rfm">
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                            <label for="segment" class="col-form-label">Select Segment</label>
+                        </div>
+                        <div class="col-auto">
+                            <select class="form-select" name="segment">
+                                <option value="all-segments">All Segments</option>
+                                {% for segment in l_segments %}
+                                <option value="{{ segment }}">{{ segment }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <label for="country" class="col-form-label">Select Country</label>
+                        </div>
+                        <div class="col-auto">
+                            <select class="form-select" name="country">
+                                <option value="all-countries">All Countries</option>
+                                {% for country in l_countries %}
+                                <option value="{{ country }}">{{ country }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-info">Query</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="card">
+                    <div class="card-header">
+                        <span><i class="bi bi-table me-2"></i></span> Data Table
+                    </div>
+                    <div class="card-body">
+
+                        <div class="table-responsive">
+                            <table id="example"
+                                   class="table table-striped data-table"
+                                   style="width: 100%">
+                                <thead>
+                                    <tr>
+                                        <th>Customer ID</th>
+                                        <th>Customer Name</th>
+                                        <th>Email Address</th>
+                                        <th>Phone Number</th>
+                                        <th>Country</th>
+                                        <th>Recency</th>
+                                        <th>Frequency</th>
+                                        <th>Monetary</th>
+                                        <th>RFM Score</th>
+                                        <th>RFM Segment</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {% for customer,rfm in customer_segment %}
+                                    <tr>
+                                        <td>{{customer.id}}</td>
+                                        <td>{{customer.first_name}} {{customer.last_name}}</td>
+                                        <td>{{customer.email_address}}</td>
+                                        <td>{{customer.phone_number}}</td>
+                                        <td>{{customer.country}}</td>
+                                        <td>{{rfm.recency}}</td>
+                                        <td>{{rfm.frequency}}</td>
+                                        <td>{{"%.2f"|format(rfm.monetary)}}</td>
+                                        <td>{{rfm.rfm_score}}</td>
+                                        <td>{{rfm.segment}}</td>
+                                    </tr>
+                                    {% endfor %}
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
+                        Number of Customers by Segments
+                    </div>
+                    <div class="card-body">
+                        <canvas class="chart" id="segment-count" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
+                        Tree Chart
+                    </div>
+                    <div class="card-body">
+                        <canvas class="chart" id="tree-chart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
+                        Frequency Scatter Plot
+                    </div>
+                    <div class="card-body">
+                        <canvas class="chart" id="scatter-freq" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
+                        Recency Scatter Plot
+                    </div>
+                    <div class="card-body">
+                        <canvas class="chart" id="scatter-recency" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script src="/static/content/dashboard/js/bootstrap.bundle.min.js"></script>
+        <script src="/static/content/dashboard/js/jquery-3.5.1.js"></script>
+        <script src="/static/content/dashboard/js/jquery.dataTables.min.js"></script>
+        <script src="/static/content/dashboard/js/dataTables.bootstrap5.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chartjs-chart-treemap@2.0.2/dist/chartjs-chart-treemap.min.js"></script>
+
+
+        <script>
+            const segments = document.getElementById("segment-count");
+            const segment_names = {{ segment_names | tojson }};
+            const customer_count = {{ customer_count | tojson }};
+            const customer_ratios = {{ customer_ratios | tojson }}
+
+
+                var ctx1 = segments.getContext("2d");
+                var segmentsChart = new Chart(ctx1, {
+                  type: "bar",
+                  data: {
+                        labels: segment_names,
+                    datasets: [
+                      {
+                        label: "# of Customers",
+                        data: customer_count,
+                        backgroundColor: [
+                          "rgba(255, 99, 132, 0.5)",
+                          "rgba(54, 162, 235, 0.5)",
+                          "rgba(255, 206, 86, 0.5)",
+                          "rgba(75, 192, 192, 0.5)",
+                          "rgba(153, 102, 255, 0.5)",
+                          "rgba(255, 159, 64, 0.5)",
+                        ],
+                        borderColor: [
+                          "rgba(255, 99, 132, 1)",
+                          "rgba(54, 162, 235, 1)",
+                          "rgba(255, 206, 86, 1)",
+                          "rgba(75, 192, 192, 1)",
+                          "rgba(153, 102, 255, 1)",
+                          "rgba(255, 159, 64, 1)",
+                        ],
+                        borderWidth: 1,
+                      },
+                    ],
+                  },
+                  options: {
+                    scales: {
+                      y: {
+                        beginAtZero: true,
+                      },
+                    },
+                  },
+                });
+
+
+
+
+            const data = {
+                  datasets: [{
+                    label: 'Tree Map Chart',
+                    tree: customer_count,
+                    backgroundColor: (ctx) => colorFromRaw(ctx),
+                    borderColor: [
+                      'rgba(255, 26, 104, 1)',
+
+                    ],
+                    spacing : 5,
+                    borderWidth: 0,
+                    labels: {
+                        display: true,
+                        formatter: (ctx) => {
+                            return `${segment_names[ctx.dataIndex]} : ${ctx.raw.v}`;
+                        },
+                        key: "sales"
+                    }
+                  }]
+                };
+
+                // config
+                const config = {
+                  type: 'treemap',
+                  data,
+                  options: {
+
+                  }
+                };
+
+                // render init block
+                const myChart = new Chart(
+                  document.getElementById('tree-chart'),
+                  config
+                );
+
+                function colorFromRaw(ctx){
+                    const collorArray = ["255, 26, 104","54, 162, 235","255, 206, 86","75, 192, 192","153, 102, 255","255, 159, 64","70, 145, 44","206, 248, 44"];
+                    const customerArray =[]
+
+                    if(ctx.type !=="data"){
+                        return "transparent"
+                    }
+
+                    ctx.chart.data.datasets[0].tree.forEach(data => {
+                        customerArray.push(data)
+                    })
+
+                    const uniqueCustomerArray = [...new Set(customerArray)];
+                    const indexCustomer = uniqueCustomerArray.indexOf(ctx.raw._data)
+
+                    const value = ctx.raw.v;
+                    let alpha = (1 + Math.log(value) / 5);
+                    return `rgba(${collorArray[indexCustomer]}, ${alpha})`
+                }
+
+
+
+        </script>
+<script>
+
+    var jitter = function(data) {
+        return data.map(function(e) {
+        var xJitter = Math.random() * (-1 - 1) + 1;
+        var yJitter = Math.random() * (-1 - 1) + 1;
+
+        return {
+          x: e.x + xJitter,
+          y: e.y + yJitter,
+        }
+      });
+    };
+
+
+    const scatterFrequency = document.getElementById("scatter-freq");
+    const scatterFrequencyData = {{ scatter_freq_dict | tojson }};
+    const datasets_freq = {{ datasets_freq | tojson}};
+    // const labels = ["at_Risk", "loyal_customers", "need_attendtion", "hibernating", "potential_loyalists", "champions", "about_to_sleep", "cant_loose"];
+
+    var ctx3 = scatterFrequency.getContext("2d");
+    var scatterFrequencyChart = new Chart(ctx3, {
+        type: "scatter",
+        data: {
+            labels : ["data"],
+            datasets: datasets_freq
+        },
+        options: {
+            legend: {
+                display: false
+            },
+            scales: {
+                x: {
+                    type: "linear",
+                    position: "bottom",
+                    title: {
+                        display: true,
+                        text: "Purchase Frequency"
+                    },
+
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: "Monetary"
+                    },
+
+
+                }
+            }
+        }
+    });
+
+
+</script>
+
+<script>
+
+    var jitter = function(data) {
+        return data.map(function(e) {
+        var xJitter = Math.random() * (-1 - 1) + 1;
+        var yJitter = Math.random() * (-1 - 1) + 1;
+
+        return {
+          x: e.x + xJitter,
+          y: e.y + yJitter,
+        }
+      });
+    };
+
+
+    const scatterRecency = document.getElementById("scatter-recency");
+    const scatterRecencyData = {{ scatter_recency_dict | tojson }};
+    const datasets_recency = {{ datasets_recency | tojson}};
+
+    var ctx4 = scatterRecency.getContext("2d");
+    var scatterOrderValueChart = new Chart(ctx4, {
+        type: "scatter",
+        data: {
+            datasets: datasets_recency
+        },
+        options: {
+            legend: {
+                display: false
+            },
+            scales: {
+                x: {
+                    type: "linear",
+                    position: "bottom",
+                    title: {
+                        display: true,
+                        text: "Recency"
+                    },
+                },
+
+                y: {
+                    title: {
+                        display: true,
+                        text: "Monetary"
+                    },
+                }
+            }
+        }
+    });
+
+
+</script>
+
+
+
+        <script>
+            $(document).ready(function () {
+                $(".data-table").each(function (_, table) {
+                    $(table).DataTable();
+                });
+            });
+        </script>
+
+
+        {% endblock %}
+
+
+
+
+
+
+

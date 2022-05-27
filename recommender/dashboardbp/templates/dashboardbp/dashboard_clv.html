@@ -1,0 +1,347 @@
+﻿{% extends "dashboard_layout.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Customer Lifetime Value & Prediction</h4>
+        </div>
+    </div>
+    <div class="row">
+        {% for kpi,value in kpis.items() %}
+        <div class="col-md-3 mb-3">
+            <div class="card {{value[1]}} text-white h-100">
+                <div class="card-body py-2">{{kpi}}</div>
+                <div class="card-body pt-2">{{value[0]}}</div>
+                <div class="card-footer d-flex">
+                    View Details
+                    <span class="ms-auto">
+                        <i class="bi bi-chevron-right"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="row">
+        <div class="col-md-12 mb-3">
+            <div class="card">
+                <div class="card-header">
+                    <span><i class="bi bi-table me-2"></i></span> Data Table
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="example"
+                               class="table table-striped data-table"
+                               style="width: 100%">
+                            <thead>
+                                <tr>
+                                    <th>Customer ID</th>
+                                    <th>Customer Name</th>
+                                    <th>Email Address</th>
+                                    <th>Phone Number</th>
+                                    <th>Country</th>
+                                    <th>Average Order Value</th>
+                                    <th>Purchase Frequency</th>
+                                    <th>Customer Value</th>
+                                    <th>Customer Lifetime Value</th>
+                                    <th>Scaled CLTV</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {% for customer,cltv in cltv_table %}
+                                <tr>
+                                    <td>{{cltv.customer_id}}</td>
+                                    <td>{{customer.first_name}} {{customer.last_name}}</td>
+                                    <td>{{customer.email_address}}</td>
+                                    <td>{{customer.phone_number}}</td>
+                                    <td>{{customer.country}}</td>
+                                    <td>{{"%.2f"|format(cltv.average_order_value)}}</td>
+                                    <td>%{{"%.2f"|format(cltv.purchase_frequency * 100)}}</td>
+                                    <td>{{"%.2f"|format(cltv.customer_value)}}</td>
+                                    <td>{{"%.2f"|format(cltv.customer_lifetime_value)}}</td>
+                                    <td>{{"%.2f"|format(cltv.scaled_cltv)}}</td>
+
+
+                                </tr>
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <form method="POST" action="/dashboard/customer-lifetime">
+                <div class="row g-3 align-items-center">
+                    <div class="col-auto">
+                        <label for="segment" class="col-form-label">Select Value</label>
+                    </div>
+                    <div class="col-auto">
+                        <select class="form-select" name="bar-chart-value">
+                            <option selected value="scaled_cltv">Scaled CLTV</option>
+                            <option value="average_order_value">Average Order Value</option>
+                            <option value="purchase_frequency">Purchase Frequency</option>
+                            <option value="customer_value">Customer Value</option>
+                            <option value="customer_lifetime_value">Customer Lifetime Value</option>
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-info">Query</button>
+                    </div>
+                </div>
+            </form>
+            <div class="card h-100">
+                <div class="card-header">
+                    <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
+                    Top Customers
+                </div>
+                <div class="card-body">
+                    <canvas class="chart" id="top-customers" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <form method="POST" action="/dashboard/customer-lifetime">
+                <div class="row g-3 align-items-center">
+                    <div class="col-auto">
+                        <label for="segment" class="col-form-label">Select Value</label>
+                    </div>
+                    <div class="col-auto">
+                        <select class="form-select" name="line-chart-value">
+                            <option selected value="average_purchase_value">Average Purchase Value</option>
+                            <option value="average_purchase_frequency">Average Purchase Frequency</option>
+                            <option value="average_customer_value">Average Customer Value</option>
+                            <option value="average_cltv">Average CLTV</option>
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-info">Query</button>
+                    </div>
+                </div>
+            </form>
+            <div class="card h-100">
+                <div class="card-header">
+                    <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
+                    Values by Years
+                </div>
+                <div class="card-body">
+                    <canvas class="chart" id="line-chart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <div class="card h-100">
+                <div class="card-header">
+                    <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
+                    Purchase Frequency Scatter Plot
+                </div>
+                <div class="card-body">
+                    <canvas class="chart" id="scatter-freq" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <div class="card h-100">
+                <div class="card-header">
+                    <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
+                    Average Order Value Scatter Plot
+                </div>
+                <div class="card-body">
+                    <canvas class="chart" id="scatter-order" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/static/content/dashboard/js/bootstrap.bundle.min.js"></script>
+<script src="/static/content/dashboard/js/jquery-3.5.1.js"></script>
+<script src="/static/content/dashboard/js/jquery.dataTables.min.js"></script>
+<script src="/static/content/dashboard/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.2/dist/chart.min.js"></script>
+
+<script>
+
+    const topCustomers = document.getElementById("top-customers");
+    const topCustomerIds = {{ top_customers_id | tojson }};
+    const topCustomersValue = {{ top_customers_value | tojson }};
+
+                var ctx1 = topCustomers.getContext("2d");
+                var topCustomersChart = new Chart(ctx1, {
+                  type: "bar",
+                    data: {
+                        labels: topCustomerIds,
+                        datasets: [
+                            {
+                                label: "{{ value_name }}",
+                        data: topCustomersValue,
+                        backgroundColor: [
+                          "rgba(255, 99, 132, 0.5)",
+                          "rgba(54, 162, 235, 0.5)",
+                          "rgba(255, 206, 86, 0.5)",
+                          "rgba(75, 192, 192, 0.5)",
+                          "rgba(153, 102, 255, 0.5)",
+                          "rgba(255, 159, 64, 0.5)",
+                        ],
+                        borderColor: [
+                          "rgba(255, 99, 132, 1)",
+                          "rgba(54, 162, 235, 1)",
+                          "rgba(255, 206, 86, 1)",
+                          "rgba(75, 192, 192, 1)",
+                          "rgba(153, 102, 255, 1)",
+                          "rgba(255, 159, 64, 1)",
+                        ],
+                        borderWidth: 1,
+                      },
+                    ],
+                  },
+                  options: {
+                    scales: {
+                      y: {
+                        beginAtZero: true,
+                      },
+                    },
+                  },
+                });
+
+</script>
+
+<script>
+
+    const valuesByYear = document.getElementById("line-chart");
+    const cltvDict = {{ cltv_dict | tojson }};
+    const labels = Object.keys(cltvDict);
+    const data = Object.values(cltvDict);
+
+
+
+    var ctx2 =  valuesByYear.getContext("2d");;
+    var topCustomersChart = new Chart(ctx2, {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [{
+                label: '{{ line_value }}',
+                data: data,
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.2
+            }]
+        },
+        options: {}
+    });
+
+
+
+
+</script>
+
+<script>
+    const scatterFrequency = document.getElementById("scatter-freq");
+    const scatterFrequencyData = {{ scatter_plot_dict_freq | tojson }};
+
+
+    var ctx3 = scatterFrequency.getContext("2d");
+    var scatterFrequencyChart = new Chart(ctx3, {
+        type: "scatter",
+        data: {
+            datasets: [{
+                label: "Purchase Frequency & CLTV",
+                backgroundColor: 'rgb(14, 70, 237)',
+                data: scatterFrequencyData["purchase_frequency"]["values"]
+            }]
+        },
+        options: {
+            legend: {
+                display: false
+            },
+            scales: {
+                x: {
+                    type: "linear",
+                    position: "bottom",
+                    title: {
+                        display: true,
+                        text: "Purchase Frequency"
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: "CLTV"
+                    }
+                }
+            }
+        }
+    });
+
+
+</script>
+
+<script>
+    const scatterOrderValue = document.getElementById("scatter-order");
+    const scatterOrderValueData = {{ scatter_plot_dict_order | tojson }};
+
+    var ctx4 = scatterOrderValue.getContext("2d");
+    var scatterOrderValueChart = new Chart(ctx4, {
+        type: "scatter",
+        data: {
+            datasets: [{
+                label: "Average Order Value & CLTV",
+                backgroundColor: 'rgb(14, 198, 35)',
+                data: scatterOrderValueData["average_order_value"]["values"]
+            }]
+        },
+        options: {
+            legend: {
+                display: false
+            },
+            scales: {
+                x: {
+                    type: "linear",
+                    position: "bottom",
+                    title: {
+                        display: true,
+                        text: "Average Order Value"
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: "CLTV"
+                    }
+                }
+            }
+        }
+    });
+
+
+</script>
+
+
+
+
+<script>
+    $(document).ready(function () {
+        $(".data-table").each(function (_, table) {
+            $(table).DataTable();
+        });
+    });
+</script>
+
+
+{% endblock %}
+
+
+
+
+
+
+
