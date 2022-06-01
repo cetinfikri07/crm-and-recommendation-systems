@@ -17,9 +17,11 @@ def login_view():
 
     if request.method == "POST":
         user = Customer.query.filter_by(username = login_form.username.data).first()
+        print(type(user.password))
+        print(type(login_form.username.data))
 
         if user:
-            if user.password == login_form.password.data:
+            if str(user.password) == login_form.password.data:
                 login_user(user)
                 return redirect(url_for("catalogue.catalogue_view"))
 
