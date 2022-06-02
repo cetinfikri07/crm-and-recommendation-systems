@@ -1,4 +1,4 @@
-# crm-and-recommendation-systems
+## Recommendation Systems and CRM Analytics
 This is an e-commerce business website integrated with CRM Analytics and Recommendation Systems
 To run the application execute following commands:
 ```
