@@ -15,7 +15,7 @@ To see recommendation systems are working, click any product listed in product c
 - To see analytics about Customer Lifetime Value go to ```dashboard/customer-lifetime```  
 - To make Customer Lifetime Value predictions go to  ```dashboard/customer-lifetime-prediction```
 
-Application my be running slow, please be patient :innocent: </br>
+Application may be running slow due to high volume of data, please be patient :innocent: </br>
 If you encouter with a problem please contact me via Linkedin.
 
 
