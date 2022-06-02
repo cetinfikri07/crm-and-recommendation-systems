@@ -11,8 +11,14 @@ python runserver.py
 ```
 To see recommendation systems are working click any product listed in product catalogue or add some products to your cart and click shopping cart icon on top right corner.
 - To have some general idea about the business go to ```/dashboard``` route.
-- To see RFM analysis go to ```/rfm``` route.
-- To 
+- To see RFM analysis go to ```dashboard/rfm``` route.
+- To see analytics about Customer Lifetime Value go to ```dashboard/customer-lifetime```  
+- To make Customer Lifetime Value predictions go to  ```dashboard/customer-lifetime-prediction```
+
+Application my be running slow, please be patient :innocent: </br>
+If you encouter with a problem please contact me via Linkedin.
+
+
 
  
 
