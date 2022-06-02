@@ -10,9 +10,9 @@ pip install -r requirements.txt
 python runserver.py
 ```
 To see recommendation systems are working click any product listed in product catalogue or add some products to your cart and click shopping cart icon on top right corner.
-To have some general idea about the business go to ```/dashboard``` route.
-To see RFM analysis go to ```/rfm``` route.
-To 
+-To have some general idea about the business go to ```/dashboard``` route.
+-To see RFM analysis go to ```/rfm``` route.
+-To 
 
  
 
